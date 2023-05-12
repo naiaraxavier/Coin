@@ -1,9 +1,95 @@
+import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
+import { addEmail } from '../redux/actions';
 
 class Login extends React.Component {
+  state = {
+    email: '',
+    password: '',
+    isButtonDisabled: true,
+  };
+
+  validationFields = () => {
+    const { email, password } = this.state;
+
+    const validateEmail = (emailToValidate) => {
+      const regex = /\S+@\S+\.\S+/;
+      return regex.test(emailToValidate);
+    };
+
+    const validatePassword = (passwordToValidate) => {
+      const minValue = 6;
+      return passwordToValidate.length >= minValue;
+    };
+
+    const validationsFields = validateEmail(email) && validatePassword(password);
+
+    this.setState({
+      isButtonDisabled: !(validationsFields),
+    });
+  };
+
+  handleChange = ({ target: { value, name } }) => {
+    this.setState({
+      [name]: value,
+    }, this.validationFields);
+  };
+
+  handleClick = () => {
+    const { history, dispatch } = this.props;
+    const { email } = this.state;
+    // salvar email no state global
+    dispatch(addEmail(email));
+    history.push('/carteira');
+  };
+
   render() {
-    return <div>Login</div>;
+    const {
+      email,
+      password,
+      isButtonDisabled,
+    } = this.state;
+
+    return (
+      <div>
+        <h1>Login</h1>
+        <input
+          data-testid="email-input"
+          name="email"
+          placeholder="alguem@alguem.com"
+          type="text"
+          value={ email }
+          onChange={ this.handleChange }
+        />
+        <input
+          data-testid="password-input"
+          name="password"
+          type="password"
+          value={ password }
+          onChange={ this.handleChange }
+        />
+        <button
+          type="submit"
+          disabled={ isButtonDisabled }
+          onClick={ this.handleClick }
+        >
+          Entrar
+        </button>
+      </div>
+    );
   }
 }
 
-export default Login;
+const mapStateToProps = (globalState) => ({
+  email: globalState.user.email,
+});
+
+Login.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
+
+export default connect(mapStateToProps)(Login);

@@ -23,7 +23,8 @@ class Login extends React.Component {
       return passwordToValidate.length >= minValue;
     };
 
-    const validationsFields = validateEmail(email) && validatePassword(password);
+    const validationsFields = validateEmail(email)
+    && validatePassword(password);
 
     this.setState({
       isButtonDisabled: !(validationsFields),

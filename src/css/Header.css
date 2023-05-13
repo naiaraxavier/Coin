@@ -1,0 +1,29 @@
+.container-header {
+  align-items: center;
+  background: white;
+  box-shadow: -4px 9px 13px rgba(5, 18, 54, 0.4);
+  display: flex;
+  height: 134px;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.container-header-currency {
+  color: #003be5;
+  display: flex;
+}
+
+.container-header-email {
+  color: #2fc18c;
+  display: flex;
+}
+
+.img-icons {
+  height: 28px;
+  margin-right: 15px;
+  width: 28px;
+}
+
+span {
+  margin-right: 8px;
+}

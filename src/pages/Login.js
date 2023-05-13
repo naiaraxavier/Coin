@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { addEmail } from '../redux/actions';
+import logoTrybeWallet from '../imgs/logoTrybeWallet.png';
+import '../css/Login.css';
 
 class Login extends React.Component {
   state = {
@@ -53,12 +55,15 @@ class Login extends React.Component {
     } = this.state;
 
     return (
-      <div>
-        <h1>Login</h1>
+      <div className="container-login">
+        <img
+          src={ logoTrybeWallet }
+          alt="logo TrybeWallet"
+        />
         <input
           data-testid="email-input"
           name="email"
-          placeholder="alguem@alguem.com"
+          placeholder="E-mail"
           type="text"
           value={ email }
           onChange={ this.handleChange }
@@ -66,6 +71,7 @@ class Login extends React.Component {
         <input
           data-testid="password-input"
           name="password"
+          placeholder="Senha"
           type="password"
           value={ password }
           onChange={ this.handleChange }

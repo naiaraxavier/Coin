@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { actionFetchApi } from '../redux/actions/index';
+import { actionFetchApi, saveForm } from '../redux/actions/index';
 import '../css/WalletForm.css';
 
 class WalletForm extends Component {
@@ -24,6 +24,37 @@ class WalletForm extends Component {
     });
   };
 
+  requestApi = async () => {
+    const response = await fetch('https://economia.awesomeapi.com.br/json/all');
+    const apiResponse = await response.json();
+    delete apiResponse.USDT;
+    return apiResponse;
+  };
+
+  handleClick = async (e) => {
+    e.preventDefault();
+    const { dispatch } = this.props;
+    const {
+      value,
+      description,
+      currency,
+      method,
+      tag,
+    } = this.state;
+
+    const objSaveForm = {
+      id: 0,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      exchangeRates: this.requestApi(),
+    };
+    // salvar email no state global
+    dispatch(saveForm(objSaveForm));
+  };
+
   render() {
     const {
       value,
@@ -37,7 +68,7 @@ class WalletForm extends Component {
       currencies,
     } = this.props;
 
-    console.log(currencies);
+    // console.log(currencies);
 
     return (
       <div className="container-wallet-form">
@@ -105,7 +136,7 @@ class WalletForm extends Component {
 
         <button
           type="submit"
-          onClick={ () => {} }
+          onClick={ this.handleClick }
         >
           Adicionar despesa
         </button>
@@ -121,6 +152,7 @@ WalletForm.propTypes = {
 
 const mapStateToProps = (globalState) => ({
   currencies: globalState.wallet.currencies,
+  expenses: globalState.wallet.expenses,
 });
 
 export default connect(mapStateToProps)(WalletForm);

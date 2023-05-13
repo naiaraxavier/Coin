@@ -1,0 +1,14 @@
+.container-table {
+  background-color: #003be5;
+  color: white;
+}
+
+.table {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.table th {
+  padding: 8px;
+  width: 150px;
+}

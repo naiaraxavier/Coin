@@ -63,6 +63,7 @@ class Login extends React.Component {
         />
         <input
           data-testid="email-input"
+          className="login-input"
           name="email"
           placeholder="E-mail"
           type="text"
@@ -71,6 +72,7 @@ class Login extends React.Component {
         />
         <input
           data-testid="password-input"
+          className="login-input"
           name="password"
           placeholder="Senha"
           type="password"

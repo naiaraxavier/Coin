@@ -25,7 +25,7 @@ body {
   width: 268.6px;
 }
 
-input {
+.login-input {
   border: 1px solid #003be5;
   border-radius: 5px;
   height: 40px;

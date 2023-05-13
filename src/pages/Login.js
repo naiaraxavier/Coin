@@ -12,21 +12,21 @@ class Login extends React.Component {
     isButtonDisabled: true,
   };
 
+  validateEmail = (emailToValidate) => {
+    const regex = /\S+@\S+\.\S+/;
+    return regex.test(emailToValidate);
+  };
+
+  validatePassword = (passwordToValidate) => {
+    const minValue = 6;
+    return passwordToValidate.length >= minValue;
+  };
+
   validationFields = () => {
     const { email, password } = this.state;
 
-    const validateEmail = (emailToValidate) => {
-      const regex = /\S+@\S+\.\S+/;
-      return regex.test(emailToValidate);
-    };
-
-    const validatePassword = (passwordToValidate) => {
-      const minValue = 6;
-      return passwordToValidate.length >= minValue;
-    };
-
-    const validationsFields = validateEmail(email)
-    && validatePassword(password);
+    const validationsFields = this.validateEmail(email)
+    && this.validatePassword(password);
 
     this.setState({
       isButtonDisabled: !(validationsFields),
@@ -57,6 +57,7 @@ class Login extends React.Component {
     return (
       <div className="container-login">
         <img
+          className="img-logo-login"
           src={ logoTrybeWallet }
           alt="logo TrybeWallet"
         />

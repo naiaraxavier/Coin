@@ -4,7 +4,6 @@ body {
   background-size: cover;
 }
 
-
 .container-login {
   align-items: center;
   background: white;
@@ -21,7 +20,7 @@ body {
   width: 525px;
 }
 
-img {
+.img-logo-login {
   height: 56.14px;
   width: 268.6px;
 }
@@ -40,4 +39,23 @@ button {
   color: white;
   height: 40px;
   width: 330px;
+}
+
+button:disabled {
+  background: rgba(128, 128, 128, 0.726);
+  border: 1px solid rgba(0, 0, 0, 0.765);
+  color: black;
+}
+
+button:hover {
+  scale: 0.9;
+  transition: 0.8s;
+}
+
+@media ( max-width : 1100px ) {
+
+  body {
+    background-color: #2fc18c;
+    background-image: none;
+  }
 }

@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { actionFetchApi, saveForm } from '../redux/actions/index';
+import { actionFetchApi } from '../redux/actions/index';
 import '../css/WalletForm.css';
 
 class WalletForm extends Component {
   state = {
+    id: 0,
     value: '',
     description: '',
     currency: 'USD',
@@ -24,17 +25,11 @@ class WalletForm extends Component {
     });
   };
 
-  requestApi = async () => {
-    const response = await fetch('https://economia.awesomeapi.com.br/json/all');
-    const apiResponse = await response.json();
-    delete apiResponse.USDT;
-    return apiResponse;
-  };
-
   handleClick = async (e) => {
     e.preventDefault();
     const { dispatch } = this.props;
     const {
+      id,
       value,
       description,
       currency,
@@ -43,16 +38,21 @@ class WalletForm extends Component {
     } = this.state;
 
     const objSaveForm = {
-      id: 0,
+      id,
       value,
       description,
       currency,
       method,
       tag,
-      exchangeRates: this.requestApi(),
     };
-    // salvar email no state global
-    dispatch(saveForm(objSaveForm));
+    // console.log(objSaveForm);
+    // salva forms no state global
+    dispatch(actionFetchApi(objSaveForm));
+    this.setState({
+      id: id + 1,
+      value: '',
+      description: '',
+    });
   };
 
   render() {
@@ -115,9 +115,9 @@ class WalletForm extends Component {
           value={ method }
           onChange={ this.handleChange }
         >
-          <option value="dinheiro">Dinheiro</option>
-          <option value="cartão de crédito">Cartão de crédito</option>
-          <option value="cartão de débito">Cartão de débito</option>
+          <option value="Dinheiro">Dinheiro</option>
+          <option value="Cartão de crédito">Cartão de crédito</option>
+          <option value="Cartão de débito">Cartão de débito</option>
         </select>
 
         <label htmlFor="tag">Categoria da despesa:</label>
@@ -127,11 +127,11 @@ class WalletForm extends Component {
           value={ tag }
           onChange={ this.handleChange }
         >
-          <option value="alimentação">Alimentação</option>
-          <option value="lazer">Lazer</option>
-          <option value="trabalho">Trabalho</option>
-          <option value="transporte">Transporte</option>
-          <option value="saúde">Saúde</option>
+          <option value="Alimentação">Alimentação</option>
+          <option value="Lazer">Lazer</option>
+          <option value="Trabalho">Trabalho</option>
+          <option value="Transporte">Transporte</option>
+          <option value="Saúde">Saúde</option>
         </select>
 
         <button

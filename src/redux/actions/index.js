@@ -10,7 +10,7 @@ export const addEmail = (email) => ({
 
 export const saveForm = (object) => ({
   type: SAVE_FORM,
-  expenses: [object],
+  exchangeRates: object,
 });
 
 export const requestApi = (apiResponse) => ({
@@ -18,9 +18,16 @@ export const requestApi = (apiResponse) => ({
   currencies: apiResponse,
 });
 
-export const actionFetchApi = () => async (dispatch) => {
+export const actionFetchApi = (objSaveForm) => async (dispatch) => {
   const response = await fetch('https://economia.awesomeapi.com.br/json/all');
   const apiResponse = await response.json();
-  const coinsFilter = Object.keys(apiResponse).filter((coin) => coin !== 'USDT');
-  dispatch(requestApi(coinsFilter));
+  if (objSaveForm) {
+    dispatch(saveForm({ ...objSaveForm, exchangeRates: apiResponse }));
+  } else {
+  // console.log(apiResponse);
+    delete apiResponse.USDT;
+    const objectKeysApi = Object.keys(apiResponse);
+    // console.log(objectKeysApi);
+    dispatch(requestApi(objectKeysApi));
+  }
 };

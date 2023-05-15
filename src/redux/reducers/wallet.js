@@ -13,7 +13,10 @@ function wallet(state = INITIAL_STATE, action) {
   case REQUEST_API:
     return { ...state, currencies: action.currencies };
   case SAVE_FORM:
-    return { ...state, expenses: action.expenses };
+    return {
+      ...state,
+      expenses: [...state.expenses, action.exchangeRates],
+    };
   default:
     return state;
   }

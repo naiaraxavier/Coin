@@ -7,8 +7,19 @@ import profile from '../imgs/profile.png';
 import '../css/Header.css';
 
 class Header extends Component {
+  expenseSum = () => {
+    const { expenses } = this.props;
+    let total = 0;
+    expenses.forEach(({ value, currency, exchangeRates }) => {
+      const result = value * exchangeRates[currency].ask;
+      total += result;
+    });
+    return total.toFixed(2);
+  };
+
   render() {
     const { email } = this.props;
+
     return (
       <div className="container-header">
         <img
@@ -25,7 +36,7 @@ class Header extends Component {
           <span
             data-testid="total-field"
           >
-            0
+            {this.expenseSum()}
           </span>
           <span
             data-testid="header-currency-field"
@@ -54,6 +65,7 @@ class Header extends Component {
 
 const mapStateToProps = (globalState) => ({
   email: globalState.user.email,
+  expenses: globalState.wallet.expenses,
 });
 
 Header.propTypes = {

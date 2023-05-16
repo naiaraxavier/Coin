@@ -10,8 +10,8 @@ class WalletForm extends Component {
     value: '',
     description: '',
     currency: 'USD',
-    method: 'dinheiro',
-    tag: 'alimentação',
+    method: 'Dinheiro',
+    tag: 'Alimentação',
   };
 
   componentDidMount() {

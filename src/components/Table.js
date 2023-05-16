@@ -1,9 +1,17 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import React, { Component } from 'react';
+import { deleteExpense } from '../redux/actions/index';
 import '../css/Table.css';
 
 class Table extends Component {
+  handleClickDelete = (id) => {
+    const { expenses, dispatch } = this.props;
+    const filter = expenses.filter((expense) => expense.id !== id);
+    dispatch(deleteExpense(filter));
+    console.log(filter);
+  };
+
   render() {
     const { expenses } = this.props;
     console.log(expenses);
@@ -24,14 +32,15 @@ class Table extends Component {
             </tr>
           </thead>
           <tbody>
-            {expenses.map(({ description,
+            {expenses.length > 0 && expenses.map(({ description,
               tag,
               method,
               value,
               currency,
               exchangeRates,
+              id,
             }) => (
-              <tr key={ Math.random() }>
+              <tr key={ id }>
                 <td>{ description }</td>
                 <td>{ tag }</td>
                 <td>{ method }</td>
@@ -41,8 +50,16 @@ class Table extends Component {
                 <td>{ (value * exchangeRates[currency].ask).toFixed(2) }</td>
                 <td> Real </td>
                 <td>
-                  <button>Editar</button>
-                  <button>Excluir</button>
+                  <button>
+                    Editar
+                  </button>
+                  <button
+                    type="button"
+                    data-testid="delete-btn"
+                    onClick={ () => this.handleClickDelete(id) }
+                  >
+                    Excluir
+                  </button>
                 </td>
               </tr>
             ))}
@@ -54,9 +71,15 @@ class Table extends Component {
 }
 
 Table.propTypes = {
-  expenses: PropTypes.shape({
-    map: PropTypes.func,
-  }).isRequired,
+  dispatch: PropTypes.func.isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.shape({
+    description: PropTypes.string.isRequired,
+    tag: PropTypes.string.isRequired,
+    method: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    currency: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+  })).isRequired,
 };
 
 const mapStateToProps = (globalState) => ({

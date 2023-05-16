@@ -39,7 +39,7 @@ class Login extends React.Component {
     }, this.validationFields);
   };
 
-  handleClick = () => {
+  handleClickLogin = () => {
     const { history, dispatch } = this.props;
     const { email } = this.state;
     // salvar email no state global
@@ -80,9 +80,10 @@ class Login extends React.Component {
           onChange={ this.handleChange }
         />
         <button
+          className="btn-login"
           type="submit"
           disabled={ isButtonDisabled }
-          onClick={ this.handleClick }
+          onClick={ this.handleClickLogin }
         >
           Entrar
         </button>

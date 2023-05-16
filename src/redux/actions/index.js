@@ -2,6 +2,7 @@
 export const ADD_EMAIL = 'ADD_EMAIL';
 export const REQUEST_API = 'REQUEST_API';
 export const SAVE_FORM = 'SAVE_FORM';
+export const DELETE_EXPENSE = 'DELETE_EXPENSE';
 
 export const addEmail = (email) => ({
   type: ADD_EMAIL,
@@ -16,6 +17,11 @@ export const saveForm = (object) => ({
 export const requestApi = (apiResponse) => ({
   type: REQUEST_API,
   currencies: apiResponse,
+});
+
+export const deleteExpense = (filter) => ({
+  type: DELETE_EXPENSE,
+  expenses: filter,
 });
 
 export const actionFetchApi = (objSaveForm) => async (dispatch) => {

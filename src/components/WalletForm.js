@@ -135,6 +135,7 @@ class WalletForm extends Component {
         </select>
 
         <button
+          className="btn-add-expense"
           type="submit"
           onClick={ this.handleClick }
         >

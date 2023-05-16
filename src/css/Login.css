@@ -32,7 +32,7 @@ body {
   width: 330px;
 }
 
-button {
+.btn-login {
   background: #003be5;
   border: 1px solid #003be5;
   border-radius: 5px;
@@ -41,13 +41,13 @@ button {
   width: 330px;
 }
 
-button:disabled {
+.btn-login:disabled {
   background: rgba(128, 128, 128, 0.726);
   border: 1px solid rgba(0, 0, 0, 0.765);
   color: black;
 }
 
-button:hover {
+.btn-login:hover {
   scale: 0.9;
   transition: 0.8s;
 }

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { actionFetchApi } from '../redux/actions/index';
+import { actionFetchApi, deleteExpense, editExpense } from '../redux/actions/index';
 import '../css/WalletForm.css';
 
 class WalletForm extends Component {
@@ -19,13 +19,27 @@ class WalletForm extends Component {
     dispatch(actionFetchApi());
   }
 
+  componentDidUpdate(prevProps) {
+    const { expenses, editor, idToEdit } = this.props;
+    if (this.props !== prevProps && editor) {
+      this.setState({
+        id: idToEdit,
+        value: expenses[idToEdit].value,
+        description: expenses[idToEdit].description,
+        currency: expenses[idToEdit].currency,
+        method: expenses[idToEdit].method,
+        tag: expenses[idToEdit].tag,
+      });
+    }
+  }
+
   handleChange = ({ target: { value, name } }) => {
     this.setState({
       [name]: value,
     });
   };
 
-  handleClick = async (e) => {
+  handleClickAdd = async (e) => {
     e.preventDefault();
     const { dispatch } = this.props;
     const {
@@ -55,6 +69,48 @@ class WalletForm extends Component {
     });
   };
 
+  handleClickEdit = async (e) => {
+    e.preventDefault();
+    const response = await fetch('https://economia.awesomeapi.com.br/json/all');
+    const apiResponse = await response.json();
+    const { dispatch, expenses } = this.props;
+    const {
+      id,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+    } = this.state;
+
+    const objSaveForm = {
+      id,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+    };
+
+    console.log(objSaveForm);
+    const updatedExpenses = expenses.map((expense) => {
+      if (expense.id === objSaveForm.id) {
+        return {
+          id: expense.id,
+          value: objSaveForm.value,
+          description: objSaveForm.description,
+          currency: objSaveForm.currency,
+          method: objSaveForm.method,
+          tag: objSaveForm.tag,
+          exchangeRates: apiResponse,
+        };
+      }
+      return expense;
+    });
+    dispatch(deleteExpense(updatedExpenses));
+    dispatch(editExpense(false));
+  };
+
   render() {
     const {
       value,
@@ -66,9 +122,10 @@ class WalletForm extends Component {
 
     const {
       currencies,
+      editor,
     } = this.props;
 
-    // console.log(currencies);
+    console.log(editor);
 
     return (
       <div className="container-wallet-form">
@@ -134,13 +191,24 @@ class WalletForm extends Component {
           <option value="Saúde">Saúde</option>
         </select>
 
-        <button
-          className="btn-add-expense"
-          type="submit"
-          onClick={ this.handleClick }
-        >
-          Adicionar despesa
-        </button>
+        {editor ? (
+          <button
+            className="btn-add-expense"
+            type="submit"
+            onClick={ this.handleClickEdit }
+          >
+            Editar despesa
+          </button>
+        ) : (
+          <button
+            className="btn-add-expense"
+            type="submit"
+            onClick={ this.handleClickAdd }
+          >
+            Adicionar despesa
+          </button>
+        )}
+
       </div>
     );
   }
@@ -149,11 +217,27 @@ class WalletForm extends Component {
 WalletForm.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   dispatch: PropTypes.func.isRequired,
+  editor: PropTypes.bool.isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.shape({
+    description: PropTypes.string.isRequired,
+    tag: PropTypes.string.isRequired,
+    method: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    currency: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+  })).isRequired,
+  idToEdit: PropTypes.number,
+};
+
+WalletForm.defaultProps = {
+  idToEdit: 0,
 };
 
 const mapStateToProps = (globalState) => ({
   currencies: globalState.wallet.currencies,
   expenses: globalState.wallet.expenses,
+  editor: globalState.wallet.editor,
+  idToEdit: globalState.wallet.idToEdit,
 });
 
 export default connect(mapStateToProps)(WalletForm);

@@ -59,8 +59,7 @@ class WalletForm extends Component {
       method,
       tag,
     };
-    // console.log(objSaveForm);
-    // salva forms no state global
+
     dispatch(actionFetchApi(objSaveForm));
     this.setState({
       id: id + 1,
@@ -69,11 +68,14 @@ class WalletForm extends Component {
     });
   };
 
+  // REFATORAR CODIGO ---------------------------------------------------------------------
   handleClickEdit = async (e) => {
     e.preventDefault();
+    const { dispatch, expenses } = this.props;
+
     const response = await fetch('https://economia.awesomeapi.com.br/json/all');
     const apiResponse = await response.json();
-    const { dispatch, expenses } = this.props;
+
     const {
       id,
       value,
@@ -90,9 +92,9 @@ class WalletForm extends Component {
       currency,
       method,
       tag,
+      exchangeRates: apiResponse,
     };
 
-    console.log(objSaveForm);
     const updatedExpenses = expenses.map((expense) => {
       if (expense.id === objSaveForm.id) {
         return {
@@ -102,13 +104,17 @@ class WalletForm extends Component {
           currency: objSaveForm.currency,
           method: objSaveForm.method,
           tag: objSaveForm.tag,
-          exchangeRates: apiResponse,
+          exchangeRates: objSaveForm.exchangeRates,
         };
       }
       return expense;
     });
     dispatch(deleteExpense(updatedExpenses));
     dispatch(editExpense(false));
+    this.setState({
+      value: '',
+      description: '',
+    });
   };
 
   render() {
@@ -124,8 +130,6 @@ class WalletForm extends Component {
       currencies,
       editor,
     } = this.props;
-
-    console.log(editor);
 
     return (
       <div className="container-wallet-form">

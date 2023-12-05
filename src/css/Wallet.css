@@ -1,0 +1,25 @@
+.container-header-form {
+  background: white;
+  border-radius: 10px;
+  box-shadow: -4px 9px 13px rgba(5, 18, 54, 0.4);
+  height: 482px;
+  left: 50%;
+  position: absolute;
+  top: -97px;
+  transform: translateX(-50%);
+  width: 1037px;
+  z-index: 1;
+}
+
+.container-table {
+  background: #003be5;
+  border-radius: 10px;
+  box-shadow: -4px 9px 13px rgba(3, 107, 82, 0.3);
+  height: 100%;
+  left: 50%;
+  position: absolute;
+  top: 156px;
+  transform: translateX(-50%);
+  width: 1155px;
+}
+

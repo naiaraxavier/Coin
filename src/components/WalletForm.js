@@ -22,14 +22,25 @@ class WalletForm extends Component {
   componentDidUpdate(prevProps) {
     const { expenses, editor, idToEdit } = this.props;
     if (this.props !== prevProps && editor) {
-      this.setState({
-        id: idToEdit,
-        value: expenses[idToEdit].value,
-        description: expenses[idToEdit].description,
-        currency: expenses[idToEdit].currency,
-        method: expenses[idToEdit].method,
-        tag: expenses[idToEdit].tag,
-      });
+      if (expenses[idToEdit]) {
+        this.setState({
+          id: idToEdit,
+          value: expenses[idToEdit].value,
+          description: expenses[idToEdit].description,
+          currency: expenses[idToEdit].currency,
+          method: expenses[idToEdit].method,
+          tag: expenses[idToEdit].tag,
+        });
+      } else {
+        this.setState({
+          id: idToEdit,
+          value: '',
+          description: '',
+          currency: 'USD',
+          method: 'Dinheiro',
+          tag: 'Alimentação',
+        });
+      }
     }
   }
 
@@ -50,7 +61,6 @@ class WalletForm extends Component {
       method,
       tag,
     } = this.state;
-
     const objSaveForm = {
       id,
       value,
@@ -59,7 +69,6 @@ class WalletForm extends Component {
       method,
       tag,
     };
-
     dispatch(actionFetchApi(objSaveForm));
     this.setState({
       id: id + 1,
@@ -68,14 +77,11 @@ class WalletForm extends Component {
     });
   };
 
-  // REFATORAR CODIGO ---------------------------------------------------------------------
   handleClickEdit = async (e) => {
     e.preventDefault();
     const { dispatch, expenses } = this.props;
-
     const response = await fetch('https://economia.awesomeapi.com.br/json/all');
     const apiResponse = await response.json();
-
     const {
       id,
       value,
@@ -84,7 +90,6 @@ class WalletForm extends Component {
       method,
       tag,
     } = this.state;
-
     const objSaveForm = {
       id,
       value,
@@ -94,7 +99,6 @@ class WalletForm extends Component {
       tag,
       exchangeRates: apiResponse,
     };
-
     const updatedExpenses = expenses.map((expense) => {
       if (expense.id === objSaveForm.id) {
         return {
@@ -125,17 +129,16 @@ class WalletForm extends Component {
       method,
       tag,
     } = this.state;
-
     const {
       currencies,
       editor,
     } = this.props;
-
     return (
       <div className="container-wallet-form">
         <label htmlFor="value">
-          Valor:
+          Valor
           <input
+            className="value-input"
             data-testid="value-input"
             name="value"
             type="number"
@@ -143,10 +146,10 @@ class WalletForm extends Component {
             onChange={ this.handleChange }
           />
         </label>
-
         <label htmlFor="description">
-          Descrição da despesa:
+          Descrição da despesa
           <input
+            className="description-input"
             data-testid="description-input"
             name="description"
             type="text"
@@ -154,9 +157,9 @@ class WalletForm extends Component {
             onChange={ this.handleChange }
           />
         </label>
-
-        <label htmlFor="currency">Moeda:</label>
+        <label htmlFor="currency">Moeda</label>
         <select
+          className="currency-input"
           data-testid="currency-input"
           name="currency"
           value={ currency }
@@ -168,9 +171,9 @@ class WalletForm extends Component {
             </option>
           ))}
         </select>
-
-        <label htmlFor="method">Método de pagamento:</label>
+        <label htmlFor="method">Método de pagamento</label>
         <select
+          className="method-input"
           data-testid="method-input"
           name="method"
           value={ method }
@@ -180,9 +183,9 @@ class WalletForm extends Component {
           <option value="Cartão de crédito">Cartão de crédito</option>
           <option value="Cartão de débito">Cartão de débito</option>
         </select>
-
-        <label htmlFor="tag">Categoria da despesa:</label>
+        <label htmlFor="tag">Categoria da despesa</label>
         <select
+          className="tag-input"
           data-testid="tag-input"
           name="tag"
           value={ tag }
@@ -194,25 +197,25 @@ class WalletForm extends Component {
           <option value="Transporte">Transporte</option>
           <option value="Saúde">Saúde</option>
         </select>
-
-        {editor ? (
-          <button
-            className="btn-add-expense"
-            type="submit"
-            onClick={ this.handleClickEdit }
-          >
-            Editar despesa
-          </button>
-        ) : (
-          <button
-            className="btn-add-expense"
-            type="submit"
-            onClick={ this.handleClickAdd }
-          >
-            Adicionar despesa
-          </button>
-        )}
-
+        <div className="container-button">
+          {editor ? (
+            <button
+              className="btn-add-expense"
+              type="submit"
+              onClick={ this.handleClickEdit }
+            >
+              Editar despesa
+            </button>
+          ) : (
+            <button
+              className="btn-add-expense"
+              type="submit"
+              onClick={ this.handleClickAdd }
+            >
+              Adicionar despesa
+            </button>
+          )}
+        </div>
       </div>
     );
   }

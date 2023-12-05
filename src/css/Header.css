@@ -1,11 +1,8 @@
 .container-header {
-  align-items: center;
-  background: white;
-  box-shadow: -4px 9px 13px rgba(5, 18, 54, 0.4);
+  align-items: flex-end;
   display: flex;
-  height: 134px;
+  height: 210px;
   justify-content: space-evenly;
-  width: 100%;
 }
 
 .container-header-currency {

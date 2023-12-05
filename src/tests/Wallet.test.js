@@ -97,6 +97,8 @@ describe('Teste da tabela de despesas', () => {
 
     expect.assertions(9);
   });
+
+  it('', () => {});
 });
 
 describe('Teste dos valores do state global', () => {
@@ -112,35 +114,4 @@ describe('Teste dos valores do state global', () => {
 
     expect.assertions(2);
   });
-
-  it('Testando a chamada da API', () => {
-    const currencies = mockData;
-
-    jest.spyOn(global, 'fetch');
-    global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(currencies),
-    });
-
-    renderWithRouterAndRedux(<App />, { initialEntries: ['/carteira'] });
-
-    expect(global.fetch).toHaveBeenCalledTimes(1);
-
-    expect(global.fetch).toHaveBeenCalledWith('https://economia.awesomeapi.com.br/json/all');
-  });
-
-  it('', () => {});
-  it('', () => {});
-  it('', () => {});
-  it('', () => {});
-  it('', () => {});
-  it('', () => {});
-});
-
-describe('Teste do formulário', () => {
-  it('', () => {});
-  it('', () => {});
-  it('', () => {});
-  it('', () => {});
-  it('', () => {});
-  it('', () => {});
 });

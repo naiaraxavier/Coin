@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithRouterAndRedux } from '../helpers/renderWith';
 import App from '../App';
@@ -48,9 +48,10 @@ describe('Login page testing', () => {
     const button = screen.getByRole('button', { name: /entrar/i });
 
     expect(button).toBeDisabled();
-
-    userEvent.type(inputEmail, 'teste@teste.com');
-    userEvent.type(inputPassword, '123456');
+    act(() => {
+      userEvent.type(inputEmail, 'teste@teste.com');
+      userEvent.type(inputPassword, '123456');
+    });
 
     expect(button).not.toBeDisabled();
 

@@ -1,22 +1,67 @@
-.container-table {
-  background-color: #003be5;
-  color: white;
+.container-table2 {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 270px;
+  width: 100%;
 }
 
 .table {
   border-collapse: collapse;
+  color: white;
+  line-height: 13px;
   padding: 8px;
-  width: 100%;
+  width: 85%;
 }
 
 td {
+  color: #2fc18c;
+  font-family: Epilogue, sans-serif;
   font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 13px;
   text-align: center;
   vertical-align: middle;
 }
 
 th {
+  font-family: Epilogue, sans-serif;
   font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
   text-align: center;
   vertical-align: middle;
+}
+
+th , td {
+  height: 27px;
+  padding: 10px;
+  width: 112px;
+}
+
+thead th {
+  border-bottom: 1px solid white;
+}
+
+tbody td {
+  border-top: 1px solid white;
+}
+
+.vertical-line {
+  border-left: 1px solid white;
+}
+
+.delete-btn , .edit-btn {
+  background-color: #003be5;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  padding: 10px;
+}
+
+.delete-btn:hover , .edit-btn:hover {
+  scale: 1.5;
+  transition: 0.5s;
 }
